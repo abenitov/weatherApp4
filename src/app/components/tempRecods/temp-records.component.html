@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+    <span i18n>TEMP_RECORD_COMPONENT</span>
+    </div>
+  </div>
+  <div class="row" *ngIf="recordWeatherTime">
+    <div class="col-md-12"><temp-details [weatherTime]="recordWeatherTime"></temp-details></div>
+  </div>
+  <div class="row recordList" *ngFor="let time of recordsTimes" (click)="sendWeatherTimeToTempComp(time)">
+    <div class="col-md-12">
+      {{ time | date: "yyyy/MM/dd HH:mm:ss"}}
+  </div>
+
+  </div>
+  </div>

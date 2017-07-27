@@ -1,0 +1,10 @@
+$icon-font-path: "/node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+    background: rgba(155, 164, 167, 0.39);
+    color: rgba(124, 124, 124, 0.69);
+}
+a {
+    color: #03A9F4;
+}

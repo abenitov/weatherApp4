@@ -1,0 +1,25 @@
+<div class="container" id="tempDetailsContainer">
+  <div class="row">
+    <div class="col-md-12">
+      <span i18n>TEMP_DETAIL_TITLE</span>
+    </div>
+    <div id="tempDetails" class="col-md-12" *ngIf="weatherDetails">
+      <span>{{weatherDetails.time | date: "yyyy/MM/dd HH:mm:ss"}}</span>
+    </div>
+  </div>
+  <div class="row" *ngFor="let weatherDetail of weatherDetails">
+    <div class="row">
+
+      <div class="col-md-12">{{weatherDetail.city}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">temp: {{weatherDetail.data.temp}}</div>
+      <div class="col-md-4">temp_min: {{weatherDetail.data.temp_min}}</div>
+      <div class="col-md-4">temp_max: {{weatherDetail.data.temp_max}}</div>
+
+
+    </div>
+
+  </div>
+</div>
+
