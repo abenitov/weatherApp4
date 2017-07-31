@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, URLSearchParams } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { WeatherStore } from "./stores/weatherStore";
 import { Observable } from "rxjs";
 import { Environment } from "../../environment/environment";
@@ -10,51 +10,52 @@ import { TempDetailData } from "./models/temp-details.model";
 export class WeatherService {
 
 
-  private paramsHttp1: URLSearchParams;
-  private paramsHttp2: URLSearchParams;
-  private paramsHttp3: URLSearchParams;
-  private paramsHttp4: URLSearchParams;
   private tempDetailsData: TempDetailData[];
 
+  public getAllMode: Boolean = false;
+
   constructor(private http: Http, private weatherStore: WeatherStore) {
-
-    this.paramsHttp1 = new URLSearchParams();
-    this.paramsHttp1.set("q", Environment.weatherAPI.cities[0]);
-    this.paramsHttp1.set("appid", Environment.weatherAPI.key);
-
-    this.paramsHttp2 = new URLSearchParams();
-    this.paramsHttp2.set("q", Environment.weatherAPI.cities[1]);
-    this.paramsHttp2.set("appid", Environment.weatherAPI.key);
-
-    this.paramsHttp3 = new URLSearchParams();
-    this.paramsHttp3.set("q", Environment.weatherAPI.cities[2]);
-    this.paramsHttp3.set("appid", Environment.weatherAPI.key);
-
-    this.paramsHttp4 = new URLSearchParams();
-    this.paramsHttp4.set("q", Environment.weatherAPI.cities[3]);
-    this.paramsHttp4.set("appid", Environment.weatherAPI.key);
-
 
     this.getWeather();
    setInterval(this.getWeather, Environment.weatherAPI.refreshInterval);
 
   }
 
-  private getWeather = ( ) => {
+  private getWeather = () => {
+
+
+      const getAll = this.getAllMode;
+    let observables: Observable<Response>[] = [];
+
+    if (getAll) {
+        observables.push(this.http.get(Environment.weatherAPI.url));
+
+    } else {
+        Environment.weatherAPI.cities.forEach( city => {
+            observables.push(this.http.get(Environment.weatherAPI.url + "/" + city).catch((resError: Response): Observable<Response> => {
+                console.error("Error in service response: " + JSON.stringify(resError));
+                const emptyResponse: Response = undefined;
+                return Observable.of(emptyResponse);
+            }));
+        });
+    }
 
     this.tempDetailsData = [];
-    Observable.forkJoin(
-      this.http.get(Environment.weatherAPI.url, {search: this.paramsHttp1}),
-      this.http.get(Environment.weatherAPI.url, {search: this.paramsHttp2}),
-      this.http.get(Environment.weatherAPI.url, {search: this.paramsHttp3}),
-      this.http.get(Environment.weatherAPI.url, {search: this.paramsHttp4}),
-    ).subscribe((responses: Response[]) => {
-      for (const response of responses){
+    Observable.forkJoin(observables).subscribe((responses: Response[]) => {
+      for (const response  of responses){
+          if (!response) {
+              continue;
+          }
 
-        const tempDetailData: TempDetailData = this.processAPIResponse(response);
-        if (tempDetailData) {
-          this.tempDetailsData.push(tempDetailData);
-        }
+          if (getAll) {
+              for (const key in response.json()) {
+                  this.processAPIResponse(response.json()[key]);
+              }
+          } else {
+              this.processAPIResponse(response.json());
+          }
+
+
       }
       if (this.tempDetailsData.length > 1) {
         this.weatherStore.saveWeather(this.tempDetailsData);
@@ -65,14 +66,13 @@ export class WeatherService {
 
   };
 
-  private processAPIResponse = (res: Response): TempDetailData => {
-    let tempDetailData: TempDetailData;
-    const weatherResponse: Weather =  res.json();
+  private processAPIResponse = (weatherResponse: Weather): void => {
+
     if (weatherResponse instanceof Object && weatherResponse.name !== undefined && weatherResponse.main !== undefined) {
-      tempDetailData = new TempDetailData(weatherResponse.name, weatherResponse.main);
+        this.tempDetailsData.push(new TempDetailData(weatherResponse.name, weatherResponse.main));
+
     } else {
-      console.log("Invalid response: " + res);
+      console.log("Invalid response: " + JSON.stringify(weatherResponse));
     }
-    return tempDetailData;
 }
 }

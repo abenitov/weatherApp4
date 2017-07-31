@@ -1,4 +1,4 @@
-import {Main} from "./main.model";
+import { Main } from "./main.model";
 export interface TempDetails {
 
   time: string;

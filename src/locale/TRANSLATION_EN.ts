@@ -26,6 +26,10 @@ export const TRANSLATION_EN = `<?xml version="1.0" encoding="UTF-8" ?>
         <source>Temperature Record</source>
         <target/>
       </trans-unit>
+       <trans-unit id="74fcff816e5e228ce7033071fe994b6479257a12" datatype="html">
+              <source>GET_MODE_LABEL</source>
+              <target>save requests</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

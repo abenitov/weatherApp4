@@ -6,9 +6,9 @@ import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
 import { TempDetailsComponent } from "./components/tempDetails/temp-details.component";
 import { TempRecordsComponent } from "./components/tempRecods/temp-records.component";
-import { WeatherDashboardComponent} from "./components/weatherDashboard/weather-dashboard.component";
+import { WeatherDashboardComponent } from "./components/weatherDashboard/weather-dashboard.component";
 import { WeatherService } from "./shared/weather.service";
-import { WeatherStore} from "./shared/stores/weatherStore";
+import { WeatherStore } from "./shared/stores/weatherStore";
 import { routing } from "./app.routing";
 
 import { removeNgStyles, createNewHosts } from "@angularclass/hmr";

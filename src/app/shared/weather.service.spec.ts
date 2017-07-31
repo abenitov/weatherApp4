@@ -30,7 +30,7 @@ describe("Weather Service" , () => {
   describe("Weather Service OK" , () => {
 
     beforeEach(inject([MockBackend], (backend: MockBackend) => {
-      const baseResponse = new Response(new ResponseOptions({body: {"coord":{"lon":-58.38,"lat":-34.61},"weather":[{"id":300,"main":"Drizzle","description":"light intensity drizzle","icon":"09n"}],"base":"stations","main":{"temp":286.83,"pressure":1015,"humidity":100,"temp_min":286.15,"temp_max":287.15},"visibility":10000,"wind":{"speed":2.6,"deg":230},"clouds":{"all":90},"dt":1498597200,"sys":{"type":1,"id":4699,"message":0.004,"country":"AR","sunrise":1498561273,"sunset":1498596752},"id":3435910,"name":"Buenos Aires","cod":200}}));
+      const baseResponse = new Response(new ResponseOptions({body: {"coord": {"lon": -58.38, "lat": -34.61}, "weather": [{"id": 300, "main": "Drizzle", "description": "light intensity drizzle", "icon": "09n"}], "base": "stations", "main": {"temp": 286.83, "pressure": 1015, "humidity": 100, "temp_min": 286.15, "temp_max": 287.15}, "visibility": 10000, "wind": {"speed": 2.6, "deg": 230}, "clouds": {"all": 90}, "dt": 1498597200, "sys": {"type": 1, "id": 4699, "message": 0.004, "country": "AR", "sunrise": 1498561273, "sunset": 1498596752}, "id": 3435910, "name": "Buenos Aires", "cod": 200}}));
       backend.connections.subscribe((c: MockConnection) => c.mockRespond(baseResponse));
     }));
 
@@ -46,6 +46,7 @@ describe("Weather Service" , () => {
       }));
 
   });
+
 
   describe("Weather Service KO, Response Error" , () => {
 

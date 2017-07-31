@@ -5,7 +5,7 @@ import { enableProdMode } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { AppModule } from "./app/app.module";
 import { TRANSLATIONS, TRANSLATIONS_FORMAT, LOCALE_ID } from "@angular/core";
-import {TRANSLATION_EN} from "./locale/TRANSLATION_EN";
+import { TRANSLATION_EN } from "./locale/TRANSLATION_EN";
 
 if (process.env.ENV === "build") {
   enableProdMode();
