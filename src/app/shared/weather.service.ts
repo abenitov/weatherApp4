@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import { WeatherStore } from "./stores/weatherStore";
 import { Observable } from "rxjs";
 import { Environment } from "../../environment/environment";
@@ -14,7 +14,7 @@ export class WeatherService {
 
   public getAllMode: Boolean = false;
 
-  constructor(private http: Http, private weatherStore: WeatherStore) {
+  constructor(private http: HttpClient, private weatherStore: WeatherStore) {
 
     this.getWeather();
    setInterval(this.getWeather, Environment.weatherAPI.refreshInterval);
@@ -25,39 +25,41 @@ export class WeatherService {
 
 
       const getAll = this.getAllMode;
-    let observables: Observable<Response>[] = [];
+    const observables: Observable<any>[] = [];
 
     if (getAll) {
         observables.push(this.http.get(Environment.weatherAPI.url));
 
     } else {
         Environment.weatherAPI.cities.forEach( city => {
-            observables.push(this.http.get(Environment.weatherAPI.url + "/" + city).catch((resError: Response): Observable<Response> => {
+            const params: HttpParams =  new HttpParams().set("q", city).set("appid", Environment.weatherAPI.appid);
+            observables.push(this.http.get(Environment.weatherAPI.url, {params}).catch((resError: HttpResponse<any>): Observable<HttpResponse<any>> => {
                 console.error("Error in service response: " + JSON.stringify(resError));
-                const emptyResponse: Response = undefined;
+                const emptyResponse: HttpResponse <any> = undefined;
                 return Observable.of(emptyResponse);
             }));
         });
     }
 
     this.tempDetailsData = [];
-    Observable.forkJoin(observables).subscribe((responses: Response[]) => {
-      for (const response  of responses){
+    Observable.forkJoin(observables).subscribe((responses: Weather[]) => {
+      for (const response  of responses) {
+          console.log(response)
           if (!response) {
               continue;
           }
 
           if (getAll) {
-              for (const key in response.json()) {
-                  this.processAPIResponse(response.json()[key]);
+              for (const key in response) {
+                  this.processAPIResponse(response[key]);
               }
           } else {
-              this.processAPIResponse(response.json());
+              this.processAPIResponse(response);
           }
 
 
       }
-      if (this.tempDetailsData.length > 1) {
+      if (this.tempDetailsData.length >= 1) {
         this.weatherStore.saveWeather(this.tempDetailsData);
       }
     }, (resError: Response[]) => {

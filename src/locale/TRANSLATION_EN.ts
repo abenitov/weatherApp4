@@ -8,7 +8,7 @@ export const TRANSLATION_EN = `<?xml version="1.0" encoding="UTF-8" ?>
       </trans-unit>
       <trans-unit id="94b302d8a27c13e866230e1c7026bd17373010c9" datatype="html">
         <source>CURRENT_TEMP</source>
-        <target>Current temperature |</target>
+        <target>Current temperature</target>
       </trans-unit>
       <trans-unit id="07206c69e0453e4e670b35dbf706e4f5fbd674cf" datatype="html">
         <source>RECORDS</source>

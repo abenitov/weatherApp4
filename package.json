@@ -7,7 +7,7 @@
     "clean-install": "npm run clean && npm install",
     "clean-start": "npm run clean-install && npm start",
     "build": "rimraf dist && webpack --progress --profile --bail",
-    "server": "webpack-dev-server --inline --port 8080",
+    "server": "webpack-dev-server --inline --port 8081",
     "i18n": "ng-xi18n --i18nFormat=xlf --output-path src/locale",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start",
@@ -52,7 +52,7 @@
     "tslint": "^5.5.0",
     "typescript": "^2.4.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1",
+    "webpack-dev-server": "^2.9.7",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

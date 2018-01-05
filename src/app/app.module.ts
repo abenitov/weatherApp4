@@ -1,7 +1,7 @@
 import { NgModule, ApplicationRef } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { TempDetailsComponent } from "./components/tempDetails/temp-details.component";
@@ -16,7 +16,7 @@ import { removeNgStyles, createNewHosts } from "@angularclass/hmr";
 @NgModule({
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     routing
   ],
