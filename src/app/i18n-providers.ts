@@ -3,7 +3,7 @@ import { TRANSLATIONS, TRANSLATIONS_FORMAT, LOCALE_ID } from "@angular/core";
 export function getTranslationProviders(): Promise<Object[]> {
 
   // Get the locale id from the global
-  const locale = document["locale"] as string;
+  const locale = navigator.language as string;
 
   // return no providers if fail to get translation file for locale
   const noProviders: Object[] = [];
@@ -17,7 +17,7 @@ export function getTranslationProviders(): Promise<Object[]> {
   const translationFile = "src/locale/messages.en.xlf";
 
   return getTranslationsWithSystemJs(translationFile)
-    .then( (translations: string ) => [
+    .then((translations: string) => [
       { provide: TRANSLATIONS, useValue: translations },
       { provide: TRANSLATIONS_FORMAT, useValue: "xlf" },
       { provide: LOCALE_ID, useValue: locale }
@@ -30,7 +30,6 @@ declare var System: any;
 function getTranslationsWithSystemJs(file: string) {
   return System.import(file + "!text"); // relies on text plugin
 }
-
 
 /*
  Copyright 2017 Google Inc. All Rights Reserved.

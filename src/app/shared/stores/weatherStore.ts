@@ -8,7 +8,6 @@ export class WeatherStore {
   private currentWeather: any;
   private newWeather: Subject<any>;
 
-
   constructor() {
     this.weatherMap = new Map<string, any>();
     this.newWeather = new Subject<any>();
@@ -22,7 +21,7 @@ export class WeatherStore {
   public saveWeather(weather: any) {
 
     const time: Date = new Date();
-    weather["time"] = time.getTime().toString();
+    weather.time = time.getTime().toString();
     this.currentWeather = weather;
     this.weatherMap.set(time.getTime().toString(), weather);
     this.newWeather.next(this.currentWeather);

@@ -21,5 +21,3 @@
     cod: number;
     time: string;
   }
-
-

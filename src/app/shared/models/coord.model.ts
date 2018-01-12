@@ -1,6 +1,6 @@
 export class Coord {
-  lon: number;
-  lat: number;
+  public lon: number;
+  public lat: number;
 }
 
 module.exports = Coord;

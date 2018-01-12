@@ -9,7 +9,6 @@ import { TempDetailData } from "./models/temp-details.model";
 @Injectable()
 export class WeatherService {
 
-
   private tempDetailsData: TempDetailData[];
 
   public getAllMode: Boolean = false;
@@ -23,7 +22,6 @@ export class WeatherService {
 
   private getWeather = () => {
 
-
       const getAll = this.getAllMode;
     const observables: Observable<any>[] = [];
 
@@ -31,9 +29,10 @@ export class WeatherService {
         observables.push(this.http.get(Environment.weatherAPI.url));
 
     } else {
-        Environment.weatherAPI.cities.forEach( city => {
+        Environment.weatherAPI.cities.forEach(city => {
             const params: HttpParams =  new HttpParams().set("q", city).set("appid", Environment.weatherAPI.appid);
-            observables.push(this.http.get(Environment.weatherAPI.url, {params}).catch((resError: HttpResponse<any>): Observable<HttpResponse<any>> => {
+            observables.push(this.http.get(Environment.weatherAPI.url, {params})
+                .catch((resError: HttpResponse<any>): Observable<HttpResponse<any>> => {
                 console.error("Error in service response: " + JSON.stringify(resError));
                 const emptyResponse: HttpResponse <any> = undefined;
                 return Observable.of(emptyResponse);
@@ -44,7 +43,7 @@ export class WeatherService {
     this.tempDetailsData = [];
     Observable.forkJoin(observables).subscribe((responses: Weather[]) => {
       for (const response  of responses) {
-          console.log(response)
+          console.log(response);
           if (!response) {
               continue;
           }
@@ -56,7 +55,6 @@ export class WeatherService {
           } else {
               this.processAPIResponse(response);
           }
-
 
       }
       if (this.tempDetailsData.length >= 1) {

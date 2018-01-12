@@ -3,9 +3,7 @@ export interface TempDetails {
 
   time: string;
   cities: TempDetailData[];
-
 }
-
 
 export class TempDetailData {
 

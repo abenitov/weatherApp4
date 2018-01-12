@@ -21,7 +21,7 @@ this.weatherSubs = this.weatherS.getWeatherSubscription().subscribe((currentWeat
 });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.weatherS.getWeatherMap()) {
       this.weatherS.getWeatherMap().forEach((value) => {
         this.recordsTimes.push(value.time);
@@ -29,7 +29,6 @@ this.weatherSubs = this.weatherS.getWeatherSubscription().subscribe((currentWeat
     }
 
   }
-
 
   public sendWeatherTimeToTempComp(recordWeatherTime: any) {
     this.recordWeatherTime = recordWeatherTime;

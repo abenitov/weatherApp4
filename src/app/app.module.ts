@@ -11,8 +11,6 @@ import { WeatherService } from "./shared/weather.service";
 import { WeatherStore } from "./shared/stores/weatherStore";
 import { routing } from "./app.routing";
 
-import { removeNgStyles, createNewHosts } from "@angularclass/hmr";
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -34,19 +32,4 @@ import { removeNgStyles, createNewHosts } from "@angularclass/hmr";
 })
 export class AppModule {
   constructor(public appRef: ApplicationRef) {}
-  hmrOnInit(store) {
-    console.log("HMR store", store);
-  }
-  hmrOnDestroy(store) {
-    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // recreate elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // remove styles
-    removeNgStyles();
-  }
-  hmrAfterDestroy(store) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
 }

@@ -13,7 +13,7 @@ if (process.env.ENV === "build") {
 
 export function main() {
 
-  const locale = document["locale"];
+  const locale = navigator.language;
     const options = { providers: [
       { provide: TRANSLATIONS, useValue: TRANSLATION_EN },
       { provide: TRANSLATIONS_FORMAT, useValue: "xlf" },
